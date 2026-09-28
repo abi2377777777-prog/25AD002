@@ -17,4 +17,23 @@ public class UserService {
         User result = userRepository.save(data);
         return result;
     }
+
+    public void updateById(Long id, User data) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
+
+        data.setId(id);
+        userRepository.save(data);
+    }
+
+    public void deleteById(Long id) {
+        if(!userRepository.existsById(id))
+        {
+            throw new RuntimeException("User not found");
+        }
+        userRepository.deleteById(id);
+    }
+
+
 }
