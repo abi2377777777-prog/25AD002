@@ -1,95 +1,79 @@
 package _AD002.example.fitlog.Controller;
 
-import _AD002.example.fitlog.Model.User;
-import _AD002.example.fitlog.Repository.UserRepository;
-import _AD002.example.fitlog.Service.UserService;
+import _AD002.example.fitlog.Model.Workout;
+import _AD002.example.fitlog.Repository.WorkoutRepository;
+import _AD002.example.fitlog.Service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/fitlog/user")
-public class UserController {
-
+@RequestMapping("/api/fitlog/workout")
+public class WorkoutController {
     @Autowired
-    private UserService userService;
-
+    private WorkoutService workoutService;
     @Autowired
-    private UserRepository userRepository;
+    private WorkoutRepository workoutRepository;
 
     @PostMapping("/create")
-    ResponseEntity<User> createuser(@RequestBody User body) {
+    ResponseEntity<Workout> createWorkout(@RequestBody Workout body) {
         return new ResponseEntity<>(
-                userService.createUser(body),
+                workoutService.createWorkout(body),
                 HttpStatus.CREATED);
     }
 
     @PutMapping("/updateById/{id}")
     ResponseEntity<String> updateById(
             @PathVariable Long id,
-            @RequestBody User data) {
+            @RequestBody Workout data) {
 
         try {
-            userService.updateById(id, data);
+            workoutService.updateById(id, data);
 
             return new ResponseEntity<>(
-                    "User updated successfully",
+                    "Workout updated successfully",
                     HttpStatus.OK);
 
         } catch (RuntimeException exception) {
 
             return new ResponseEntity<>(
-                    "User not found",
+                    "Workout not found",
                     HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/deleteById/{id}")
     ResponseEntity<String> deleteById(@PathVariable long id) {
-
         try {
-            userService.deleteById(id);
-
+            workoutService.deleteById(id);
             return new ResponseEntity<>(
-                    "User deleted sucessfully",
+                    "Workout deleted sucessfully",
                     HttpStatus.OK);
-
         } catch (RuntimeException exception) {
-
             return new ResponseEntity<>(
-                    "User not found",
+                    "Workout not found",
                     HttpStatus.NOT_FOUND
             );
         }
     }
 
     @GetMapping("/getall")
-    ResponseEntity<List<User>> getall() {
-
+    ResponseEntity<List<Workout>> getall() {
         return new ResponseEntity<>(
-                userService.getAllPatient(),
+                workoutService.getAllWorkout(),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/getbyid/{id}")
     ResponseEntity<?> getbyId(@PathVariable long id) {
-
         try {
-            User response = userService.getById(id);
-
-            return new ResponseEntity<>(
-                    response,
-                    HttpStatus.OK);
-
+            Workout response = workoutService.getById(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException exception) {
-
-            return new ResponseEntity<>(
-                    "not found",
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
         }
     }
 }

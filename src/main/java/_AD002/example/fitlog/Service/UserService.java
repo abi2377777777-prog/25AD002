@@ -35,5 +35,17 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public List<User> getAllPatient() {
+        return userRepository.findAll();
+    }
+
+    public User getById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
+
+
+
+
 
 }

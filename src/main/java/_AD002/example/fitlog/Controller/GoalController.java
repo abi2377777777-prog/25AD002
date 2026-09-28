@@ -1,95 +1,79 @@
 package _AD002.example.fitlog.Controller;
 
-import _AD002.example.fitlog.Model.User;
-import _AD002.example.fitlog.Repository.UserRepository;
-import _AD002.example.fitlog.Service.UserService;
+import _AD002.example.fitlog.Model.Goal;
+import _AD002.example.fitlog.Repository.GoalRepository;
+import _AD002.example.fitlog.Service.GoalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/fitlog/user")
-public class UserController {
-
+@RequestMapping("/api/fitlog/goal")
+public class GoalController {
     @Autowired
-    private UserService userService;
-
+    private GoalService goalService;
     @Autowired
-    private UserRepository userRepository;
+    private GoalRepository goalRepository;
 
     @PostMapping("/create")
-    ResponseEntity<User> createuser(@RequestBody User body) {
+    ResponseEntity<Goal> createGoal(@RequestBody Goal body) {
         return new ResponseEntity<>(
-                userService.createUser(body),
+                goalService.createGoal(body),
                 HttpStatus.CREATED);
     }
 
     @PutMapping("/updateById/{id}")
     ResponseEntity<String> updateById(
             @PathVariable Long id,
-            @RequestBody User data) {
+            @RequestBody Goal data) {
 
         try {
-            userService.updateById(id, data);
+            goalService.updateById(id, data);
 
             return new ResponseEntity<>(
-                    "User updated successfully",
+                    "Goal updated successfully",
                     HttpStatus.OK);
 
         } catch (RuntimeException exception) {
 
             return new ResponseEntity<>(
-                    "User not found",
+                    "Goal not found",
                     HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/deleteById/{id}")
     ResponseEntity<String> deleteById(@PathVariable long id) {
-
         try {
-            userService.deleteById(id);
-
+            goalService.deleteById(id);
             return new ResponseEntity<>(
-                    "User deleted sucessfully",
+                    "Goal deleted sucessfully",
                     HttpStatus.OK);
-
         } catch (RuntimeException exception) {
-
             return new ResponseEntity<>(
-                    "User not found",
+                    "Goal not found",
                     HttpStatus.NOT_FOUND
             );
         }
     }
 
     @GetMapping("/getall")
-    ResponseEntity<List<User>> getall() {
-
+    ResponseEntity<List<Goal>> getall() {
         return new ResponseEntity<>(
-                userService.getAllPatient(),
+                goalService.getAllGoal(),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/getbyid/{id}")
     ResponseEntity<?> getbyId(@PathVariable long id) {
-
         try {
-            User response = userService.getById(id);
-
-            return new ResponseEntity<>(
-                    response,
-                    HttpStatus.OK);
-
+            Goal response = goalService.getById(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException exception) {
-
-            return new ResponseEntity<>(
-                    "not found",
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
         }
     }
 }
